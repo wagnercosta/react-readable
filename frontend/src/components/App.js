@@ -9,10 +9,10 @@ import {
     NavLink,
     Container,
     Row,
-    Col,
-    Jumbotron,
-    Button
+    Col
 } from 'reactstrap';
+import Categories from './Categories';
+import PostsMains from './PostsMain';
 
 class App extends Component {
     constructor(props) {
@@ -30,9 +30,9 @@ class App extends Component {
     }
     render() {
         return (
-            <div>
-                <Navbar color="inverse" light expand="md">
-                    <NavbarBrand href="/">reactstrap</NavbarBrand>
+            <Container fluid>
+                <Navbar color="primary" dark expand="md">
+                    <NavbarBrand href="/">Readable</NavbarBrand>
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
@@ -45,27 +45,11 @@ class App extends Component {
                         </Nav>
                     </Collapse>
                 </Navbar>
-                <Jumbotron>
-                    <Container>
-                        <Row>
-                            <Col>
-                                <h1>Welcome to React</h1>
-                                <p>
-                                    <Button
-                                        tag="a"
-                                        color="success"
-                                        size="large"
-                                        href="http://reactstrap.github.io"
-                                        target="_blank"
-                                    >
-                                        View Reactstrap Docs
-                                    </Button>
-                                </p>
-                            </Col>
-                        </Row>
-                    </Container>
-                </Jumbotron>
-            </div>
+                <Row className="mt-2">
+                    <Col xs="12" md="2"><Categories/></Col>
+                    <Col xs="12" md="10"><PostsMains/></Col>
+                </Row>
+            </Container>
         );
     }
 }
