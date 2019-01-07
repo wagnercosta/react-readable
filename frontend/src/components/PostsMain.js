@@ -1,4 +1,5 @@
 import React from 'react';
+import { render } from 'react-dom';
 import { Card, CardBody, CardTitle, CardText,  CardHeader, CardSubtitle } from 'reactstrap';
 import { connect } from "react-redux";
 import { fetchPosts } from "../actions/postsActions";
@@ -25,7 +26,7 @@ class Posts extends React.Component {
         {posts.map(post => 
         <Card body key={post.id} className="mt-2">
           <CardTitle>{post.title}</CardTitle>
-          <CardText>{post.body}</CardText>
+          <CardText dangerouslySetInnerHTML={{ __html: post.body }} />
         </Card>
         )}
       </div>

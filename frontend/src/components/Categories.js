@@ -48,4 +48,6 @@ const mapStateToProps = state => ({
   error: state.categories.error
 });
 
+
+
 export default connect(mapStateToProps)(Categories);
