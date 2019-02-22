@@ -14,6 +14,10 @@ export const FETCH_POSTS_FAILURE = 'FETCH_POSTS_FAILURE';
 export const ADD_POST_BEGIN = 'ADD_POST_BEGIN';
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
 export const ADD_POST_FAILURE = 'ADD_POST_FAILURE';
+export const GET_POST_BEGIN   = 'GET_POST_BEGIN';
+export const GET_POST_SUCCESS = 'GET_POST_SUCCESS';
+export const GET_POST_FAILURE = 'GET_POST_FAILURE';
+
 
 export const fetchPostsBegin = () => ({
   type: FETCH_POSTS_BEGIN
@@ -70,6 +74,34 @@ export function addPost(post) {
          return({sucesso: true})
       })
       .catch(error => dispatch(addPostFailure(error)));
+  };
+}
+
+export const getPostBegin = () => ({
+  type: GET_POST_BEGIN
+});
+
+export const getPostSuccess = post => ({
+  type: GET_POST_SUCCESS,
+  payload: { post }
+});
+
+export const getPostFailure = error => ({
+  type: GET_POST_FAILURE,
+  payload: { error }
+});
+
+export function getPost(id) {
+  return dispatch => {
+    dispatch(getPostBegin());
+    return fetch(`${BACKEND_ADDRESS}/posts/${id}`, { headers: { 'Authorization': API_ID }})
+      .then(handleErrors)
+      .then(res => res.json())
+      .then(json => {
+        dispatch(getPostSuccess(json));
+        return json;
+      })
+      .catch(error => dispatch(getPostFailure(error)));
   };
 }
   

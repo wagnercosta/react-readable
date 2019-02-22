@@ -11,6 +11,7 @@ import {
     Row,
     Col
 } from 'reactstrap';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 class Menu extends Component {
     constructor(props) {
@@ -29,16 +30,13 @@ class Menu extends Component {
     render() {
         return (
             <Navbar color="primary" dark expand="md">
-                <NavbarBrand href="/">Readable</NavbarBrand>
+                <Link className="navbar-brand" to="/">Readable</Link>
                 <NavbarToggler onClick={this.toggle} />
                 <Collapse isOpen={this.state.isOpen} navbar>
                     <Nav className="ml-auto" navbar>
-                        <NavItem>
-                            <NavLink href="/components/">Components</NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink href="https://github.com/reactstrap/reactstrap">Github</NavLink>
-                        </NavItem>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/NewPost">New Post</Link>
+                        </li>
                     </Nav>
                 </Collapse>
             </Navbar>

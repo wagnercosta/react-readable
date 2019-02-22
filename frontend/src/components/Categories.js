@@ -2,6 +2,7 @@ import React from 'react';
 import { Nav, NavItem, NavLink } from 'reactstrap';
 import { connect } from "react-redux";
 import { fetchCategories } from "../actions/categoriesActions";
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 
 class Categories extends React.Component {
@@ -25,16 +26,16 @@ class Categories extends React.Component {
         <p>Categorias</p>
         <Nav className="d-md-none">
           {categories.map(categoria => 
-            <NavItem key={categoria.path} >
-              <NavLink href={categoria.path}>{categoria.name}</NavLink>
-            </NavItem>
+            <li className="navItem" key={categoria.path}>
+              <Link to={`/category/${categoria.path}`}>{categoria.path}</Link>
+            </li>
           )}
         </Nav>
         <Nav vertical className="d-none d-sm-block">
           {categories.map(categoria => 
-              <NavItem key={categoria.path} >
-                <NavLink href={categoria.path}>{categoria.name}</NavLink>
-              </NavItem>
+              <li className="navItem" key={categoria.path} >
+                <Link to={`/category/${categoria.path}`}>{categoria.path}</Link>
+              </li>
             )}
         </Nav>
       </div>

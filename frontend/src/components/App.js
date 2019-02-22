@@ -9,6 +9,7 @@ class App extends Component {
         return (
             <Container fluid>
                 <Route exact path="/" component={Home} />
+                <Route exact path="/category/:id" component={Home} />
                 <Route path="/NewPost" component={NewPost} />
             </Container>
         );
