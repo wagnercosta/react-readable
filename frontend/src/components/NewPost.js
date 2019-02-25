@@ -11,16 +11,19 @@ class NewPost extends Component {
     componentDidMount() {
         this.props.dispatch(fetchCategories());
     }
+    
+
     render() {
-        let editing = true;
-        let id = "8xf0y6ziyjabvozdd253nd";
+        let id = this.props.match.params.id
+        let editing = false;
+        if(id !== undefined) editing = true;
 
         return (
-            
             <div>
                 <Menu/>
                 <div className="row mt-2">
-                    <div className="col-12"><FormNewPost history={this.props.history} categories={this.props.categories} editing={editing} id={id} /></div>
+                    <div className="col-12"
+                    ><FormNewPost history={this.props.history} categories={this.props.categories} editing={editing} id={id} /></div>
                 </div>
             </div>
         );

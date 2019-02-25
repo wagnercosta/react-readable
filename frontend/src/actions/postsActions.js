@@ -14,9 +14,14 @@ export const FETCH_POSTS_FAILURE = 'FETCH_POSTS_FAILURE';
 export const ADD_POST_BEGIN = 'ADD_POST_BEGIN';
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
 export const ADD_POST_FAILURE = 'ADD_POST_FAILURE';
+export const EDIT_POST_BEGIN = 'EDIT_POST_BEGIN';
+export const EDIT_POST_SUCCESS = 'EDIT_POST_SUCCESS';
+export const EDIT_POST_FAILURE = 'EDIT_POST_FAILURE';
 export const GET_POST_BEGIN   = 'GET_POST_BEGIN';
 export const GET_POST_SUCCESS = 'GET_POST_SUCCESS';
 export const GET_POST_FAILURE = 'GET_POST_FAILURE';
+export const CLEAR_ACTUAL_POST = 'CLEAR_ACTUAL_POST';
+
 
 
 export const fetchPostsBegin = () => ({
@@ -104,7 +109,49 @@ export function getPost(id) {
       .catch(error => dispatch(getPostFailure(error)));
   };
 }
-  
+
+export const clearActualPostEnd = () => ({
+  type: CLEAR_ACTUAL_POST
+});
+
+export function clearActualPost() {
+  return dispatch => {
+    dispatch(clearActualPostEnd());
+    return [];
+  };
+}
+
+
+export const editPostBegin = () => ({
+  type: EDIT_POST_BEGIN
+});
+
+export const editPostSuccess = post => ({
+  type: EDIT_POST_SUCCESS,
+  payload: { post }
+});
+
+export const editPostFailure = error => ({
+  type: EDIT_POST_FAILURE,
+  payload: { error }
+});
+
+export function editPost(post) {
+  return dispatch => {
+    dispatch(editPostBegin());
+    return fetch(`${BACKEND_ADDRESS}/posts/${post.id}`, 
+        { "method": 'PUT', 
+          "headers": { 'Authorization': API_ID, "Content-Type": "application/json" }, 
+          "body": JSON.stringify({"title": post.title, "body": post.body }) })
+      .then(handleErrors)
+      .then(json => {
+         dispatch(editPostSuccess(json));
+         return({sucesso: true})
+      })
+      .catch(error => dispatch(editPostFailure(error)));
+  };
+}
+
 // Handle HTTP errors since fetch won't.
 function handleErrors(response) {
   if (!response.ok) {
