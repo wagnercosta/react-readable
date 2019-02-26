@@ -61,16 +61,16 @@ class ViewPost extends Component {
                             Add Comment
                         </Button>
                     </div>
-                    <div className="col-12">
-                        {comments.map(comment => 
-                            <p key={comment.id}>{comment.body}</p>
-                        )}
-                    </div>
+                    
+                    {comments.map(comment => 
+                        <div key={comment.id} className="col-12">
+                            <p><strong>{comment.author}</strong></p>
+                            <p>{comment.body}</p>
+                            <hr />
+                        </div>
+                    )}
                 </div>
 
-                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
-                    <ModalBody>
                     <Formik
                         enableReinitialize
                         initialValues={{
@@ -97,11 +97,18 @@ class ViewPost extends Component {
                                 .then((retorno) => {
                                 this.props.fetchComment(this.props.match.params.id);
                                 setSubmitting(false);
+                                values.author = "";
+                                values.body = "";
+                                this.toggle();
                             });
                         }}
     
                         render={({ isSubmitting, handleReset, handleSubmit, errors, touched, values, handleBlur, setFieldValue, props }) => (
+                            <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                            <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
+                            
                             <Form>
+                            <ModalBody>
                                 <Field
                                     name="author"
                                     label="Author"
@@ -110,31 +117,31 @@ class ViewPost extends Component {
                                     value={values.author}
                                     component={InputComponent} 
                                     touched={touched}
-                                    disabled={this.props.editing}
                                 />
                     
                             <Field
                                 name="body"
                                 label="Body"
                                 helpmessage="Type here the comment body" 
-                                placeholder="Commen t"
+                                placeholder="Comment"
                                 value={values.body}
                                 component={InputComponent}
                                 touched={touched}
                             />
-                            
-                            <button type="submit" className="btn btn-primary ml-2">
-                            Submit
-                        </button>
+                                </ModalBody>
+                                <ModalFooter>
+                                    <button type="submit" className="btn btn-primary ml-2">
+                                        Submit
+                                    </button>
+                                    {' '}
+                                    <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                                </ModalFooter>
                             </Form>
+                            </Modal>
+
                             )}
                             />
-                    </ModalBody>
-                    <ModalFooter>
-                        {' '}
-                        <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-                    </ModalFooter>
-                </Modal>
+
 
             </div>
         );

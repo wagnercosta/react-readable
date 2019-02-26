@@ -72,7 +72,7 @@ export function addComment(comment) {
       .then(handleErrors)
       .then(json => {
          dispatch(addCommentSuccess(json));
-         return({sucesso: true})
+         return({sucesso: true, comment: json.body})
       })
       .catch(error => dispatch(addCommentFailure(error)));
   };
