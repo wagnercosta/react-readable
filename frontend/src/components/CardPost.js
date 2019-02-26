@@ -11,7 +11,8 @@ export const CardPost = ( props ) => {
   return (
     <Card body key={post.id} className="mt-2">
       <CardTitle>{post.title} {props.category}</CardTitle>
-      <CardText><HTMLEllipsis
+      <CardText tag="div">
+        <HTMLEllipsis
           unsafeHTML={post.body}
           maxLine='5'
           ellipsis='...'
@@ -24,7 +25,7 @@ export const CardPost = ( props ) => {
         <small className="ml-2">Date:</small> <span className="badge badge-secondary">{dataFormatadaFromTimeStamp(post.timestamp)}</span>
       </CardText>
       <CardText>
-      <Link to={`/EditPost/${post.id}`}><button className="btn btn-info btn-sm">Edit</button></Link>
+        <Link to={`/EditPost/${post.id}`}><button className="btn btn-info btn-sm">Edit</button></Link>
         <Link to={`/ViewPost/${post.id}`}><button className="btn btn-info btn-sm">View</button></Link>
       </CardText>
     </Card>

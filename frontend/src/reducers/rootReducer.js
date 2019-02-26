@@ -4,11 +4,21 @@ import posts from "./postsReducer";
 import newPosts from "./newPostsReducer";
 import Post from "./getPostReducer";
 import editPost from "./editPostsReducer";
+import order from "./orderReducer";
+import editComment from "./editCommentReducer";
+import fetchComments from "./fetchCommentsReducer";
+import getComment from "./getCommentReducer";
+import newComment from "./newCommentReducer";
 
 export default combineReducers({
   categories,
   posts,
   newPosts,
   Post,
-  editPost
+  editPost,
+  order,
+  editComment,
+  fetchComments,
+  getComment,
+  newComment
 });

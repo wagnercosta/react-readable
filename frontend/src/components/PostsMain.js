@@ -5,13 +5,14 @@ import { connect } from "react-redux";
 import { fetchPosts } from "../actions/postsActions";
 import { dataFormatadaFromTimeStamp } from "../utils/utils";
 import { CardPost } from "./CardPost"
+import { postMainActions, changeOrder } from "../actions/postsMainActions";
 
 
 
 class Posts extends React.Component {
     constructor(props) {
       super(props);
-      this.state = {orderPost: 'dateDesc'};
+      //this.state = {orderPost: 'dateDesc'};
       this.handleChange = this.handleChange.bind(this);
     }
     
@@ -20,14 +21,11 @@ class Posts extends React.Component {
     }
 
     handleChange(event) {
-      this.setState({orderPost: event.target.value});
-      //console.log(event.target.value);
+      this.props.dispatch(changeOrder(event.target.value));
     }
   
     render() {
-      const { error, loading, posts } = this.props;
-      const orderBy = this.state.orderPost;
-      console.log(orderBy);
+      const { error, loading, posts, orderBy } = this.props;
 
       if (error) {
         return <div>Error! {error.message}</div>;
@@ -41,19 +39,15 @@ class Posts extends React.Component {
       
       switch(orderBy) {
         case "dateAsc":
-          console.log(1);
           sortAscByDate(postsfiltered);
           break;
         case "dateDesc":
-          console.log(2);
           sortDescByDate(postsfiltered);
           break;
         case "voteAsc":
-          console.log(3);
           sortAscByVote(postsfiltered);
           break;
         case "voteDesc":
-          console.log(4);
           sortDescByVote(postsfiltered);
           break;
         default:
@@ -62,8 +56,8 @@ class Posts extends React.Component {
     return (
       <div>
         <label>
-          Choose the posts order:
-          <select value={this.state.orderPost} onChange={this.handleChange}>
+          Order by:
+          <select value={orderBy} className="ml-2" onChange={this.handleChange}>
             <option value="dateAsc">Older</option>
             <option value="dateDesc">Newest</option>
             <option value="voteAsc">Popular</option>
@@ -133,7 +127,10 @@ const sortDescByDate = (posts) =>
 const mapStateToProps = state => ({
   posts: state.posts.items,
   loading: state.posts.loading,
-  error: state.posts.error
+  error: state.posts.error,
+  orderBy: state.order.orderBy,
 });
+
+
 
 export default connect(mapStateToProps)(Posts);
