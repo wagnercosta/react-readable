@@ -19,8 +19,4 @@ class App extends Component {
     }
 }
 
-//Just for tests
-//const NewPost = () => <h2>Home</h2>;
-
-
 export default App;

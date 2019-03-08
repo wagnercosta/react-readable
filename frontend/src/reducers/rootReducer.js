@@ -9,6 +9,7 @@ import editComment from "./editCommentReducer";
 import fetchComments from "./fetchCommentsReducer";
 import getComment from "./getCommentReducer";
 import newComment from "./newCommentReducer";
+import votePost from "./votePostsReducer";
 
 export default combineReducers({
   categories,
@@ -20,5 +21,6 @@ export default combineReducers({
   editComment,
   fetchComments,
   getComment,
-  newComment
+  newComment,
+  votePost
 });

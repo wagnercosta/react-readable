@@ -135,7 +135,7 @@ export const editCommentFailure = error => ({
 export function editComment(comment) {
   return dispatch => {
     dispatch(editCommentBegin());
-    return fetch(`${BACKEND_ADDRESS}/comment/${comment.id}`, 
+    return fetch(`${BACKEND_ADDRESS}/comments/${comment.id}`, 
         { "method": 'PUT', 
           "headers": { 'Authorization': API_ID, "Content-Type": "application/json" }, 
           "body": JSON.stringify({"timestamp": comment.timestamp, "body": comment.body }) })

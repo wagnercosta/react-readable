@@ -13,7 +13,7 @@ import {
   
 
 
-export default function postsReducer(state = initialState, action) {
+export default function getCommentReducer(state = initialState, action) {
     switch(action.type) {
         case GET_COMMENT_BEGIN:
         return {

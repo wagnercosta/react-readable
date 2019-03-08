@@ -1,27 +1,34 @@
 import React from 'react';
-import { render } from 'react-dom';
-import { Card, CardBody, CardTitle, CardText,  CardHeader, CardSubtitle } from 'reactstrap';
 import { connect } from "react-redux";
-import { fetchPosts } from "../actions/postsActions";
-import { dataFormatadaFromTimeStamp } from "../utils/utils";
+import { fetchPosts, votePost } from "../actions/postsActions";
 import { CardPost } from "./CardPost"
-import { postMainActions, changeOrder } from "../actions/postsMainActions";
+import { changeOrder } from "../actions/postsMainActions";
 
 
 
 class Posts extends React.Component {
     constructor(props) {
       super(props);
-      //this.state = {orderPost: 'dateDesc'};
       this.handleChange = this.handleChange.bind(this);
     }
+
     
     componentDidMount() {
-      this.props.dispatch(fetchPosts());
+      this.props.fetchPosts();
     }
 
     handleChange(event) {
-      this.props.dispatch(changeOrder(event.target.value));
+      this.props.changeOrder(event.target.value);
+    }
+
+    votePost = (option, postId) => {
+      this.props.votePost(option, postId, this.props.posts)
+        .then((retorno) => {
+          if(retorno.sucesso)
+          {
+            //this.props.fetchPosts();
+          }
+        });
     }
   
     render() {
@@ -65,7 +72,7 @@ class Posts extends React.Component {
           </select>
         </label>
         {postsfiltered.map(post => 
-            <CardPost key={post.id} post={post} categories={this.props.categories} />
+            <CardPost key={post.id} post={post} categories={this.props.categories} votePost={this.votePost} />
         )}
       </div>
   );
@@ -132,5 +139,12 @@ const mapStateToProps = state => ({
 });
 
 
+const mapDispatchToProps = dispatch => ({
+  fetchPosts: () => dispatch(fetchPosts()),
+  votePost: (option, id, allPosts) => dispatch(votePost(option, id, allPosts)),
+  changeOrder: (order) => dispatch(changeOrder(order))
+});
 
-export default connect(mapStateToProps)(Posts);
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Posts);

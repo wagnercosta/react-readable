@@ -11,6 +11,7 @@ import {
 export const FETCH_POSTS_BEGIN   = 'FETCH_POSTS_BEGIN';
 export const FETCH_POSTS_SUCCESS = 'FETCH_POSTS_SUCCESS';
 export const FETCH_POSTS_FAILURE = 'FETCH_POSTS_FAILURE';
+export const CHANGE_VOTE = 'CHANGE_VOTE';
 export const ADD_POST_BEGIN = 'ADD_POST_BEGIN';
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
 export const ADD_POST_FAILURE = 'ADD_POST_FAILURE';
@@ -21,6 +22,9 @@ export const GET_POST_BEGIN   = 'GET_POST_BEGIN';
 export const GET_POST_SUCCESS = 'GET_POST_SUCCESS';
 export const GET_POST_FAILURE = 'GET_POST_FAILURE';
 export const CLEAR_ACTUAL_POST = 'CLEAR_ACTUAL_POST';
+export const VOTE_POST_BEGIN = 'VOTE_POST_BEGIN';
+export const VOTE_POST_SUCCESS = 'VOTE_POST_SUCCESS';
+export const VOTE_POST_FAILURE = 'VOTE_POST_FAILURE';
 
 
 
@@ -37,6 +41,13 @@ export const fetchPostsFailure = error => ({
   type: FETCH_POSTS_FAILURE,
   payload: { error }
 });
+
+export const changeVote = (post, allPosts) => ({
+  type: CHANGE_VOTE,
+  post: post,
+  allPosts: allPosts
+})
+
 
 export function fetchPosts() {
   return dispatch => {
@@ -149,6 +160,39 @@ export function editPost(post) {
          return({sucesso: true})
       })
       .catch(error => dispatch(editPostFailure(error)));
+  };
+}
+
+
+export const votePostBegin = () => ({
+  type: VOTE_POST_BEGIN
+});
+
+export const votePostSuccess = json => ({
+  type: VOTE_POST_SUCCESS,
+  payload: { json }
+});
+
+export const votePostFailure = error => ({
+  type: VOTE_POST_FAILURE,
+  payload: { error }
+});
+
+export function votePost(option, id, allPosts) {
+  return dispatch => {
+    dispatch(votePostBegin());
+    return fetch(`${BACKEND_ADDRESS}/posts/${id}`, 
+        { "method": 'POST', 
+          "headers": { 'Authorization': API_ID, "Content-Type": "application/json" }, 
+          "body": JSON.stringify({"option": option }) })
+      .then(handleErrors)
+      .then(res => res.json())
+      .then(json => {
+         dispatch(votePostSuccess(json));
+         dispatch(changeVote(json, allPosts))
+         return({sucesso: true})
+      })
+      .catch(error => dispatch(votePostFailure(error)));
   };
 }
 

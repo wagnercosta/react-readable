@@ -28,6 +28,10 @@ export const CardPost = ( props ) => {
         <Link to={`/EditPost/${post.id}`}><button className="btn btn-info btn-sm">Edit</button></Link>
         <Link to={`/ViewPost/${post.id}`}><button className="btn btn-info btn-sm">View</button></Link>
       </CardText>
+      <CardText>
+        <button className="btn btn-info btn-sm" onClick={() => props.votePost('upVote', post.id)}>Up</button>
+        <button className="btn btn-info btn-sm" onClick={() => props.votePost('downVote', post.id)}>Down</button>
+      </CardText>
     </Card>
   );
 };
